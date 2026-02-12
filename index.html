@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Eliana 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #ffecd2 100%);
+            min-height: 100vh;
+        }
+
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .page.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Question Page */
+        #question-page {
+            text-align: center;
+        }
+
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            animation: float 4s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px 30px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #ff6b9d;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            font-size: 1.4em;
+            color: #ff6b9d;
+            margin: 30px 0;
+            font-weight: bold;
+        }
+
+        .buttons {
+            position: relative;
+            height: 200px;
+            margin-top: 20px;
+        }
+
+        button {
+            font-size: 1.2em;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        #yes-btn {
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+        }
+
+        #yes-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.6);
+        }
+
+        #no-btn {
+            background: #ffc0cb;
+            color: #ff6b9d;
+            position: absolute;
+            box-shadow: 0 4px 15px rgba(255, 192, 203, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        /* Postcard Page */
+        #postcard-page {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .postcard {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            overflow: hidden;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .postcard-header {
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .postcard-header::before {
+            content: '💕';
+            position: absolute;
+            font-size: 100px;
+            opacity: 0.2;
+            top: -20px;
+            right: -20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .postcard-header h2 {
+            color: white;
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .postcard-body {
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .message {
+            font-size: 1.2em;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .big-heart {
+            font-size: 80px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10%, 30% { transform: scale(1.1); }
+            20%, 40% { transform: scale(1); }
+        }
+
+        .signature {
+            margin-top: 30px;
+            font-style: italic;
+            color: #ff6b9d;
+            font-size: 1.3em;
+        }
+
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff6b9d;
+            top: -10px;
+            opacity: 0;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Question Page -->
+    <div id="question-page" class="page active">
+        <div class="hearts-bg" id="hearts-bg"></div>
+        <div class="content">
+            <h1>¡Hola Eliana! 💕</h1>
+            <div class="question">¿Quieres ser mi Valentín?</div>
+            <div class="buttons">
+                <button id="yes-btn">¡Sí! 💖</button>
+                <button id="no-btn">No</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Postcard Page -->
+    <div id="postcard-page" class="page">
+        <div class="postcard">
+            <div class="postcard-header">
+                <h2>¡Feliz Día de San Valentín!</h2>
+                <p style="color: white; font-size: 1.1em;">Para mi increíble Eliana 💕</p>
+            </div>
+            <div class="postcard-body">
+                <div class="big-heart">❤️</div>
+                <div class="message">
+                    ¡Sabía que dirías que sí! 😊<br><br>
+                    Haces que cada día se sienta como San Valentín,<br>
+                    pero hoy es aún más especial porque puedo decirte<br>
+                    lo mucho que significas para mí.<br><br>
+                    Eres mi persona favorita,<br>
+                    mi mejor amiga,<br>
+                    y la razón por la que sonrío cada día.
+                </div>
+                <div class="signature">
+                    Con todo mi amor 💕
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="confetti" id="confetti"></div>
+
+    <script>
+        // Create floating hearts background
+        const heartsContainer = document.getElementById('hearts-bg');
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '💕';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 4 + 's';
+            heartsContainer.appendChild(heart);
+        }
+
+        // No button behavior
+        const noBtn = document.getElementById('no-btn');
+        const yesBtn = document.getElementById('yes-btn');
+        const buttonsContainer = document.querySelector('.buttons');
+
+        // Position no button initially
+        let noBtnX = 0;
+        let noBtnY = 60;
+        noBtn.style.left = noBtnX + 'px';
+        noBtn.style.top = noBtnY + 'px';
+
+        function moveNoButton() {
+            const containerRect = buttonsContainer.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            // Random position within the container
+            const maxX = containerRect.width - btnRect.width;
+            const maxY = containerRect.height - btnRect.height;
+            
+            noBtnX = Math.random() * maxX;
+            noBtnY = Math.random() * maxY;
+            
+            noBtn.style.left = noBtnX + 'px';
+            noBtn.style.top = noBtnY + 'px';
+        }
+
+        // Move on hover (for desktop)
+        noBtn.addEventListener('mouseenter', moveNoButton);
+
+        // Move on touch start (for mobile)
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // Yes button - show postcard
+        yesBtn.addEventListener('click', () => {
+            document.getElementById('question-page').classList.remove('active');
+            document.getElementById('postcard-page').classList.add('active');
+            createConfetti();
+        });
+
+        // Create confetti effect
+        function createConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            const colors = ['#ff6b9d', '#ffc0cb', '#ff8fab', '#ffb6c1', '#ff69b4'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti-piece';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animation = `confetti-fall ${2 + Math.random() * 2}s linear forwards`;
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    confettiContainer.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 30);
+            }
+        }
+    </script>
+</body>
+</html>
